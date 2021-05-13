@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Menu principal Last FM</title>
+		<meta charset="utf-8">
+		 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<!-- <script type="text/javascript" src="./js/constants.js"></script>-->
+			<script type="text/javascript" src="./js/utf8.js"></script>
+			<script type="text/javascript" src="./js/md5.min.js"></script>
+			<script type="text/javascript" src="./js/main.js"></script>
+
+		</head>
+	<body>
+		<h1>Im login to</h1>
+		<div id="userData">
+<!--<img src="https://lastfm-img2.akamaized.net/i/u/34s/cc637716959b4acecaa1a307e300f61f.png" />-->
+		</div>
+		<br>
+		<p>
+			Aqui teniu uns resultats del getUserInfo obtinguts a la linea 178 de main.js una crida feta per mostrar dades ( no esta a dintre de cap funció)
+		</p>
+
+		<div id="success">
+		    <div id="artistName"></div>
+		    <div id="artistImage"></div>
+		    <div id="artistBio"></div>
+		</div>
+		<div id="error"></div>
+
+<br>
+<br>
+		<p>Notes de l'autor:<br>
+		Copyright tots els drets reservats...<br>
+		Prohibida la copia distribució o reproducció total o PARCIAL sense permís</p>
+<br>
+<br>
+		<button type="button" onclick="loadUserInfoXMLDoc()">Get User information</button>
+
+		<p>Get user information; loadUserInfoXMLDoc() funciona de forma correcta i retorna un xml ( processa resposta)<br>
+		<br>
+		<button type="button" onclick="loadDefaultUserInfoXMLDoc()">Get Default User information (test)</button>
+
+		<br>
+		Get Default User information: loadDefaultUserInfoXMLDoc No funciona perque veieu que sense un usuari no funciona
+		( malgrat documentacio diu que ficar usuari es opcional) <br>
+		<br>
+		<button type="button" onclick="loadSearchArtistJSONDoc()">Search artist</button>
+	<br>
+		Search artist: loadSearchArtistJSONDocFunciona correctament, busco artistes amb nom eminem i mostro 10 primers resultats ( resposta ve en JSON) </p>
+
+	<br>
+	<button type="button" onclick="loadChartTopArtistsJSONDoc()">Get Top Artist Chart</button>
+	<br>GetTopArtist funciona correctament: loadChartTopArtistsJSONDoc Torna en JSON els 10 primers artistes de la chart de lastfm.<br>
+								Potser és el codi més semblant i més academic per fer crides ajax com vistes a classe<br>
+<br>
+
+
+<button type="button" onclick="calculateApiSignatureStack()">Calculate API Signature Stack</button>
+
+<br>CalculateApiSigStack: ( SI FUNCIONA) calculateApiSignatureStack() seguint alguna resposta de Stackoverflow he calculat apisig, i aquesta.
+										Intentare aconseguir un codi més entenedor i simple<br>
+		Un cop teniu apisig, podeu fer una crida al getSession per obtenir una sessionKey ( requerida en els metodes que requereixen AUTENTICACIO)
+<br>
+<br>
+<button type="button" onclick="addTrackTagXMLHttpRequest()">Add tags to track ( XMLHttpRequest)</button>
+		<br><br>AddTrackTag : addTrackTagXMLHttpRequest() Envies la mateixa configuracio que en jquery ( parametres) pero NO funciona invalid parameters ??
+<br>nota només pots enviar un tag alhora no una llista de tags ( segons documentació hauries de poder)
+<br>
+
+<button type="button" onclick="addTrackTagJquery()">Add tags to track ( jquery)</button>
+<br>
+<br>
+AddTrackTag : addTrackTagJquery()  envies informacio ( POST), estan bé segons la documentació si funciona
+<br>
+<br>
+<br>
+<button type="button" onclick="trackLoveXMlHttpRequestSendQuery()">Love track( XMlHttpRequest send string)</button>
+<br>
+<br>
+TrackLove : trackLoveXMlHttpRequest  envies informacio ( POST), i funciona enviant com parametres una cadena i no un objecte JSON.
+<br>
+<br>
+<br>
+<button type="button" onclick="trackLoveXMlHttpRequest()">Love track( XMlHttpRequest send JSON)</button>
+<br>
+<br>
+TrackLove : trackLoveXMlHttpRequest  envies informacio ( POST), estan i mateix parametres jquery en format json objecti  NO funciona invalid parameters.
+<br>
+<br>
+<button type="button" onclick="trackLoveJquery()">Love track( Jquery)</button>
+<br>
+<br>
+TrackLove : trackLoveJquery()  envies informacio ( POST), funciona
+<br>
+<br>
+
+
+
+
+		<table id="demo"></table>
+
+		<table id="demo2"></table>
+
+		<p id="artist"></p>
+
+	</body>
+</html>
