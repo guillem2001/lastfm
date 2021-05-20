@@ -21,9 +21,15 @@ function userInfo(){
         url: 'http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=guillem20012&api_key=' + myAPI_key,
         method: 'GET'
     }).then(function(data) {
-        //console.log(data);
-        return data;
+        printUser(data);
     });
+}
+
+function printUser(xml){
+    var xmlDoc = xml.responseXML;
+    var x = xmlDoc.getElementsByTagName("user");
+    var name = x[0].getElementsByTagName("name")[0].childNodes[0].nodeValue;
+    $("#nameuser").text(name);
 }
 
 function tablaAlbums(xml) {
@@ -43,6 +49,16 @@ function tablaAlbums(xml) {
     document.getElementById("albums").innerHTML = table;
 }
 
+function albums(){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            tablaAlbums(this);
+        }
+    };
+    xhttp.open("GET", "http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=Bad+Bunny&api_key=abc4563bfb944f73812a105b2559af85", true);
+    xhttp.send();
+}
 
 $( document ).ready(function() {
     //CÁCULO DE API_SIG Para get session
@@ -77,21 +93,8 @@ $( document ).ready(function() {
             console.log('Error - ' + errorMessage);
         }
     });
-    /*let xml = userInfo();
-    var x = xml.getElementsByTagName("user");
-    var name = x[0].getElementsByTagName("name")[0].childNodes[0].nodeValue;
-    var img = x[0].getElementsByTagName("image")[0].childNodes[0].nodeValue;
-    console.log(xml);
-    console.log(name);
-    console.log(img);*/
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            tablaAlbums(this);
-        }
-    };
-    xhttp.open("GET", "http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=Bad+Bunny&api_key=abc4563bfb944f73812a105b2559af85", true);
-    xhttp.send();
+    albums();
+    userInfo();
 });
 
 function calculateApiSig( params) {
