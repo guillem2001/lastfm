@@ -26,7 +26,7 @@ function userInfo(){
 }
 
 function printUser(xml){
-    var xmlDoc = xml.responseXML;
+    var xmlDoc = xml;
     var x = xmlDoc.getElementsByTagName("user");
     var name = x[0].getElementsByTagName("name")[0].childNodes[0].nodeValue;
     $("#nameuser").text(name);
@@ -60,7 +60,7 @@ function albums(){
     xhttp.send();
 }
 
-$( document ).ready(function() {
+function api_sign(){
     //CÁCULO DE API_SIG Para get session
     var data = {
         'token': Utf8.encode(captured),
@@ -85,14 +85,16 @@ $( document ).ready(function() {
 
             console.log("Resposta: Name " + res.session.name);// Should return session key.
             console.log("Resposta: Key " + res.session.key);
-            $("#nameuser").text(res.session.name);
-            //$("#imguser").attr("src", src1);
         },
         error: function (xhr, status, error) {
             var errorMessage = xhr.status + ': ' + xhr.statusText
             console.log('Error - ' + errorMessage);
         }
     });
+
+}
+$( document ).ready(function() {
+    api_sign();
     albums();
     userInfo();
 });
