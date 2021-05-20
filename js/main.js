@@ -32,6 +32,25 @@ function printUser(xml){
     $("#nameuser").text(name);
 }
 
+function printSimilars(json){
+    /*var xmlDoc = xml.responseXML;
+    var table="<tr><th>Nom</th><th>Playcount</th><th>Foto</th></tr>";
+    var x = xmlDoc.getElementsByTagName("album");
+    for (i = 0; i <10; i++) {
+        table += "<tr><td>" +
+            x[i].getElementsByTagName("name")[0].childNodes[0].nodeValue +
+            "</td><td>" +
+            x[i].getElementsByTagName("playcount")[0].childNodes[0].nodeValue +
+            "</td><td><img src="+
+            x[i].getElementsByTagName("image")[2].childNodes[0].nodeValue + "></img></td></tr>";
+        console.log(x[i]);
+    }*/
+
+    console.log(json.similarartists.artist[0].name);
+
+    //document.getElementById("similars").innerHTML = table;
+}
+
 function tablaAlbums(xml) {
     var i;
     var xmlDoc = xml.responseXML;
@@ -44,7 +63,6 @@ function tablaAlbums(xml) {
             x[i].getElementsByTagName("playcount")[0].childNodes[0].nodeValue +
             "</td><td><img src="+
             x[i].getElementsByTagName("image")[2].childNodes[0].nodeValue + "></img></td></tr>";
-        console.log(x[i]);
     }
     document.getElementById("albums").innerHTML = table;
 }
@@ -56,8 +74,16 @@ function albums(){
             tablaAlbums(this);
         }
     };
-    xhttp.open("GET", "http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=Bad+Bunny&api_key=abc4563bfb944f73812a105b2559af85", true);
+    xhttp.open("GET", "http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=Bad+Bunny&api_key=" + myAPI_key, true);
     xhttp.send();
+}
+function similars(){
+    $.ajax({
+        url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=Bad+Bunny&api_key=' + myAPI_key+ '&format=json',
+        method: 'GET'
+    }).then(function(data) {
+        printSimilars(data);
+    });
 }
 
 function api_sign(){
@@ -97,6 +123,7 @@ $( document ).ready(function() {
     api_sign();
     albums();
     userInfo();
+    similars();
 });
 
 function calculateApiSig( params) {
