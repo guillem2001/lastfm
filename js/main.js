@@ -1,10 +1,10 @@
-var myAPI_key="abc4563bfb944f73812a105b2559af85";
-var myshared_secret="b3a42a52baac133e543e842a2cec25bf";
+const myAPI_key="abc4563bfb944f73812a105b2559af85";
+const myshared_secret="b3a42a52baac133e543e842a2cec25bf";
 
-var url = window.location.href; // or window.location.href for current url
-var captured = /token=([^&]+)/.exec(url)[1]; // Value is in [1] ('384' in our case)
-var result = captured ? captured : 'myDefaultValue';
-//console.log(captured);
+const url = window.location.href; // or window.location.href for current url
+const captured = /token=([^&]+)/.exec(url)[1]; // Value is in [1] ('384' in our case)
+const result = captured ? captured : 'myDefaultValue';
+let api_sign = null;
 
 function printartist(){
 
@@ -13,7 +13,15 @@ function printartist(){
         method: 'GET'
     }).then(function(data) {
         console.log(data);
-        $("p").text(data.title)
+    });
+}
+
+function userInfo(){
+    $.ajax({
+        url: 'http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=guillem20012&api_key=' + myAPI_key,
+        method: 'GET'
+    }).then(function(data) {
+        console.log(data);
     });
 }
 
@@ -21,7 +29,7 @@ $( document ).ready(function() {
     //CÁCULO DE API_SIG Para get session
     var data = {
         'token': Utf8.encode(captured),
-        'api_key': "abc4563bfb944f73812a105b2559af85",
+        'api_key': myAPI_key,
         'method': 'auth.getSession'
     };
 
@@ -79,7 +87,7 @@ function calculateApiSig( params) {
 
     var hashed_sec = md5(unescape(encodeURIComponent(stringActual)));
     console.log("La apiSig es: " + hashed_sec);
-
+    api_sign = hashed_sec;
     return hashed_sec; // Returns signed POSTable objec */
 
 }
