@@ -11,33 +11,45 @@
 
 		</head>
 	<body>
-		<h1>Im login to</h1>
-		<div id="userData">
-<!--<img src="https://lastfm-img2.akamaized.net/i/u/34s/cc637716959b4acecaa1a307e300f61f.png" />-->
-		</div>
+	<style>
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #333;
+		}
+
+		li {
+			float: left;
+		}
+
+		li a {
+			display: block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+
+		li a:hover {
+			background-color: #111;
+		}
+	</style>
+	<ul>
+		<li><a class="active" href="#home">Home</a></li>
+		<li><a href="#news">News</a></li>
+		<li><a href="#contact">Contact</a></li>
+		<li><a href="#about">About</a></li>
+		<li><img src="" id="imguser"> </li>
+		<li><a id="nameuser"></a></li>
+	</ul>
 		<br>
-		<p>
-			Aqui teniu uns resultats del getUserInfo obtinguts a la linea 178 de main.js una crida feta per mostrar dades ( no esta a dintre de cap funció)
-		</p>
-
-		<div id="success">
-		    <div id="artistName"></div>
-		    <div id="artistImage"></div>
-		    <div id="artistBio"></div>
-		</div>
-		<div id="error"></div>
-
-<br>
-<br>
-		<p>Notes de l'autor:<br>
-		Copyright tots els drets reservats...<br>
-		Prohibida la copia distribució o reproducció total o PARCIAL sense permís</p>
-<br>
-<br>
+		<br>
 		<button type="button" onclick="printartist()">Get Info Justin Bieber</button>
 		<div id="justin"></div>
 		<button type="button" onclick="userInfo()">Get Info User</button>
 		<div id="user"></div>
-
+		<div id="albums"></div>
 	</body>
 </html>
