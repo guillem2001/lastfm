@@ -29,15 +29,15 @@ function userInfo(){
 function tablaAlbums(xml) {
     var i;
     var xmlDoc = xml.responseXML;
-    var table="<tr><th>Data</th><th>Value</th><th>Altre</th></tr>";
+    var table="<tr><th>Nom</th><th>Playcount</th><th>Foto</th></tr>";
     var x = xmlDoc.getElementsByTagName("album");
-    for (i = 0; i <x.length; i++) {
+    for (i = 0; i <10; i++) {
         table += "<tr><td>" +
             x[i].getElementsByTagName("name")[0].childNodes[0].nodeValue +
             "</td><td>" +
             x[i].getElementsByTagName("playcount")[0].childNodes[0].nodeValue +
             "</td><td><img src="+
-            x[i].getElementsByTagName("image")[0].childNodes[0].nodeValue + "></img></td></tr>";
+            x[i].getElementsByTagName("image")[2].childNodes[0].nodeValue + "></img></td></tr>";
         console.log(x[i]);
     }
     document.getElementById("albums").innerHTML = table;
