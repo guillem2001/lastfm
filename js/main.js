@@ -33,28 +33,25 @@ function printUser(xml){
 }
 
 function printSimilars(json){
-    /*var xmlDoc = xml.responseXML;
-    var table="<tr><th>Nom</th><th>Playcount</th><th>Foto</th></tr>";
-    var x = xmlDoc.getElementsByTagName("album");
-    for (i = 0; i <10; i++) {
+
+    var table = "";
+    for (var i=0; i< 10; i++)
+    {
         table += "<tr><td>" +
-            x[i].getElementsByTagName("name")[0].childNodes[0].nodeValue +
-            "</td><td>" +
-            x[i].getElementsByTagName("playcount")[0].childNodes[0].nodeValue +
-            "</td><td><img src="+
-            x[i].getElementsByTagName("image")[2].childNodes[0].nodeValue + "></img></td></tr>";
-        console.log(x[i]);
-    }*/
+            json.similarartists.artist[i].name +
+            "</td><td>";
+    }
+    console.log(json);
 
-    console.log(json.similarartists.artist[0].name);
+    console.log(json.similarartists.artist[i].image[2].size);
 
-    //document.getElementById("similars").innerHTML = table;
+    document.getElementById("similars").innerHTML = table;
 }
 
 function tablaAlbums(xml) {
     var i;
     var xmlDoc = xml.responseXML;
-    var table="<tr><th>Nom</th><th>Playcount</th><th>Foto</th></tr>";
+    var table = "";
     var x = xmlDoc.getElementsByTagName("album");
     for (i = 0; i <10; i++) {
         table += "<tr><td>" +
@@ -80,6 +77,7 @@ function albums(){
 function similars(){
     $.ajax({
         url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=Bad+Bunny&api_key=' + myAPI_key+ '&format=json',
+        dataType: 'json',
         method: 'GET'
     }).then(function(data) {
         printSimilars(data);
