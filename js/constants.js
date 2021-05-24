@@ -3,6 +3,17 @@
 		var myAPI_key="abc4563bfb944f73812a105b2559af85";
 		var myshared_secret="b3a42a52baac133e543e842a2cec25bf";
 
+		class Constants {
+			constructor() {
+				this.myAPI_key = "abc4563bfb944f73812a105b2559af85";
+				this.myshared_secret="b3a42a52baac133e543e842a2cec25bf";
+				this.myapplication_name="as";
+				this.url = null;
+				this.api_sig = null;
+				this.captured = null;
+			}
+		}
+
 function myLoginFunction(){
 			/*
 			params api_key ( my api key)
@@ -11,3 +22,5 @@ function myLoginFunction(){
 
 			window.location.replace(url);
 }
+
+

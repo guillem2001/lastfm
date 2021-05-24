@@ -1,15 +1,11 @@
-const myAPI_key="abc4563bfb944f73812a105b2559af85";
-const myshared_secret="b3a42a52baac133e543e842a2cec25bf";
-
-const url = window.location.href;
-const captured = /token=([^&]+)/.exec(url)[1];
-const result = captured ? captured : 'myDefaultValue';
-let api_sig = null;
+var dades = new Constants();
+dades.url = window.location.href;
+dades.captured = /token=([^&]+)/.exec(dades.url)[1];
 
 function printartist(){
 
     $.ajax({
-        url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=Justin+Bieber&api_key='+myAPI_key+'&format=json',
+        url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=Justin+Bieber&api_key='+dades.myAPI_key+'&format=json',
         method: 'GET'
     }).then(function(data) {
         console.log(data);
@@ -18,7 +14,7 @@ function printartist(){
 
 function userInfo(){
     $.ajax({
-        url: 'http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=guillem20012&api_key=' + myAPI_key,
+        url: 'http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=guillem20012&api_key=' + dades.myAPI_key,
         method: 'GET'
     }).then(function(data) {
         printUser(data);
@@ -71,12 +67,12 @@ function albums(){
             tablaAlbums(this);
         }
     };
-    xhttp.open("GET", "http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=Bad+Bunny&api_key=" + myAPI_key, true);
+    xhttp.open("GET", "http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=Bad+Bunny&api_key=" + dades.myAPI_key, true);
     xhttp.send();
 }
 function similars(){
     $.ajax({
-        url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=Bad+Bunny&api_key=' + myAPI_key+ '&format=json',
+        url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=Bad+Bunny&api_key=' + dades.myAPI_key+ '&format=json',
         dataType: 'json',
         method: 'GET'
     }).then(function(data) {
@@ -87,8 +83,8 @@ function similars(){
 function api_sign(){
     //CÁCULO DE API_SIG Para get session
     var data = {
-        'token': Utf8.encode(captured),
-        'api_key': myAPI_key,
+        'token': Utf8.encode(dades.captured),
+        'api_key': dades.myAPI_key,
         'method': 'auth.getSession'
     };
 
@@ -143,7 +139,7 @@ function calculateApiSig( params) {
 
     console.log("Mi primer chorizo:" , stringActual);
 
-    stringActual = stringActual + myshared_secret;
+    stringActual = stringActual + dades.myshared_secret;
     console.log("Mi primer chorizo con shared:" , stringActual);
 
     console.log("Mi primer chorizo con shared limpio :" , stringActual);
@@ -151,7 +147,7 @@ function calculateApiSig( params) {
 
     var hashed_sec = md5(unescape(encodeURIComponent(stringActual)));
     console.log("La apiSig es: " + hashed_sec);
-    api_sig = hashed_sec;
+    dades.api_sig = hashed_sec;
     return hashed_sec; // Returns signed POSTable objec */
 
 }
