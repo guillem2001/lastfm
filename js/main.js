@@ -2,16 +2,8 @@ var dades = new Constants();
 dades.url = window.location.href;
 dades.captured = /token=([^&]+)/.exec(dades.url)[1];
 
-function printartist(){
 
-    $.ajax({
-        url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=Justin+Bieber&api_key='+dades.myAPI_key+'&format=json',
-        method: 'GET'
-    }).then(function(data) {
-        console.log(data);
-    });
-}
-
+/** Obté la informació del usuari a traves de ajax i obtenim un XML */
 function userInfo(){
     $.ajax({
         url: 'http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=guillem20012&api_key=' + dades.myAPI_key,
@@ -21,6 +13,7 @@ function userInfo(){
     });
 }
 
+/** Imprimeix el nom del usuari al menú */
 function printUser(xml){
     var xmlDoc = xml;
     var x = xmlDoc.getElementsByTagName("user");
@@ -28,6 +21,17 @@ function printUser(xml){
     $("#nameuser").text(name);
 }
 
+function addTagBadBunny(){
+    api_sign();
+    let api_sig = dades.api_sig;
+    let api_key = dades.myAPI_key;
+    let sk = dades.captured;
+    let artist = "Bad+Bunny";
+    let tag = "Conejo";
+
+}
+
+/** Imprimim els artistes similars */
 function printSimilars(json){
 
     var table = "";
@@ -44,6 +48,7 @@ function printSimilars(json){
     document.getElementById("similars").innerHTML = table;
 }
 
+/** Imprimeix els albums */
 function tablaAlbums(xml) {
     var i;
     var xmlDoc = xml.responseXML;
@@ -60,6 +65,7 @@ function tablaAlbums(xml) {
     document.getElementById("albums").innerHTML = table;
 }
 
+/** Obtenim els albums del artista */
 function albums(){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -70,6 +76,8 @@ function albums(){
     xhttp.open("GET", "http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=Bad+Bunny&api_key=" + dades.myAPI_key, true);
     xhttp.send();
 }
+
+/** Obtenim els cantants similars al artista */
 function similars(){
     $.ajax({
         url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=Bad+Bunny&api_key=' + dades.myAPI_key+ '&format=json',
@@ -80,6 +88,7 @@ function similars(){
     });
 }
 
+/** Obtenim el api sig */
 function api_sign(){
     //CÁCULO DE API_SIG Para get session
     var data = {
@@ -113,6 +122,7 @@ function api_sign(){
     });
 
 }
+
 $( document ).ready(function() {
     api_sign();
     albums();
@@ -120,6 +130,7 @@ $( document ).ready(function() {
     similars();
 });
 
+/** Calculem el api_sig */
 function calculateApiSig( params) {
 
     //Crec que només necessitem apikey, token i secret i no necessitem params, els podem treure de sessionStorage

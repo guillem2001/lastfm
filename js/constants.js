@@ -1,19 +1,17 @@
 
-		var myapplication_name="as";
-		var myAPI_key="abc4563bfb944f73812a105b2559af85";
-		var myshared_secret="b3a42a52baac133e543e842a2cec25bf";
 
-		class Constants {
-			constructor() {
-				this.myAPI_key = "abc4563bfb944f73812a105b2559af85";
-				this.myshared_secret="b3a42a52baac133e543e842a2cec25bf";
-				this.myapplication_name="as";
-				this.url = null;
-				this.api_sig = null;
-				this.captured = null;
-			}
-		}
+class Constants {
+	constructor() {
+		this.myAPI_key = "abc4563bfb944f73812a105b2559af85";
+		this.myshared_secret="b3a42a52baac133e543e842a2cec25bf";
+		this.myapplication_name="as";
+		this.url = null;
+		this.api_sig = null;
+		this.captured = null;
+	}
+}
 
+/** Quan fem login ens redirigeix a la pàgina principal */
 function myLoginFunction(){
 			/*
 			params api_key ( my api key)
