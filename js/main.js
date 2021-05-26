@@ -1,30 +1,19 @@
-const myAPI_key="abc4563bfb944f73812a105b2559af85";
-const myshared_secret="b3a42a52baac133e543e842a2cec25bf";
+var dades = new Constants();
+dades.url = window.location.href;
+dades.captured = /token=([^&]+)/.exec(dades.url)[1];
 
-const url = window.location.href;
-const captured = /token=([^&]+)/.exec(url)[1];
-const result = captured ? captured : 'myDefaultValue';
-let api_sig = null;
 
-function printartist(){
-
-    $.ajax({
-        url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=Justin+Bieber&api_key='+myAPI_key+'&format=json',
-        method: 'GET'
-    }).then(function(data) {
-        console.log(data);
-    });
-}
-
+/** Obté la informació del usuari a traves de ajax i obtenim un XML */
 function userInfo(){
     $.ajax({
-        url: 'http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=guillem20012&api_key=' + myAPI_key,
+        url: 'http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=guillem20012&api_key=' + dades.myAPI_key,
         method: 'GET'
     }).then(function(data) {
         printUser(data);
     });
 }
 
+/** Imprimeix el nom del usuari al menú */
 function printUser(xml){
     var xmlDoc = xml;
     var x = xmlDoc.getElementsByTagName("user");
@@ -32,29 +21,38 @@ function printUser(xml){
     $("#nameuser").text(name);
 }
 
-function printSimilars(json){
-    /*var xmlDoc = xml.responseXML;
-    var table="<tr><th>Nom</th><th>Playcount</th><th>Foto</th></tr>";
-    var x = xmlDoc.getElementsByTagName("album");
-    for (i = 0; i <10; i++) {
-        table += "<tr><td>" +
-            x[i].getElementsByTagName("name")[0].childNodes[0].nodeValue +
-            "</td><td>" +
-            x[i].getElementsByTagName("playcount")[0].childNodes[0].nodeValue +
-            "</td><td><img src="+
-            x[i].getElementsByTagName("image")[2].childNodes[0].nodeValue + "></img></td></tr>";
-        console.log(x[i]);
-    }*/
+function addTagBadBunny(){
+    api_sign();
+    let api_sig = dades.api_sig;
+    let api_key = dades.myAPI_key;
+    let sk = dades.captured;
+    let artist = "Bad+Bunny";
+    let tag = "Conejo";
 
-    console.log(json.similarartists.artist[0].name);
-
-    //document.getElementById("similars").innerHTML = table;
 }
 
+/** Imprimim els artistes similars */
+function printSimilars(json){
+
+    var table = "";
+    for (var i=0; i< 10; i++)
+    {
+        table += "<tr><td>" +
+            json.similarartists.artist[i].name +
+            "</td><td>";
+    }
+    console.log(json);
+
+    console.log(json.similarartists.artist[i].image[2].size);
+
+    document.getElementById("similars").innerHTML = table;
+}
+
+/** Imprimeix els albums */
 function tablaAlbums(xml) {
     var i;
     var xmlDoc = xml.responseXML;
-    var table="<tr><th>Nom</th><th>Playcount</th><th>Foto</th></tr>";
+    var table = "";
     var x = xmlDoc.getElementsByTagName("album");
     for (i = 0; i <10; i++) {
         table += "<tr><td>" +
@@ -67,6 +65,7 @@ function tablaAlbums(xml) {
     document.getElementById("albums").innerHTML = table;
 }
 
+/** Obtenim els albums del artista */
 function albums(){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -74,23 +73,27 @@ function albums(){
             tablaAlbums(this);
         }
     };
-    xhttp.open("GET", "http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=Bad+Bunny&api_key=" + myAPI_key, true);
+    xhttp.open("GET", "http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=Bad+Bunny&api_key=" + dades.myAPI_key, true);
     xhttp.send();
 }
+
+/** Obtenim els cantants similars al artista */
 function similars(){
     $.ajax({
-        url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=Bad+Bunny&api_key=' + myAPI_key+ '&format=json',
+        url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=Bad+Bunny&api_key=' + dades.myAPI_key+ '&format=json',
+        dataType: 'json',
         method: 'GET'
     }).then(function(data) {
         printSimilars(data);
     });
 }
 
+/** Obtenim el api sig */
 function api_sign(){
     //CÁCULO DE API_SIG Para get session
     var data = {
-        'token': Utf8.encode(captured),
-        'api_key': myAPI_key,
+        'token': Utf8.encode(dades.captured),
+        'api_key': dades.myAPI_key,
         'method': 'auth.getSession'
     };
 
@@ -119,6 +122,7 @@ function api_sign(){
     });
 
 }
+
 $( document ).ready(function() {
     api_sign();
     albums();
@@ -126,6 +130,7 @@ $( document ).ready(function() {
     similars();
 });
 
+/** Calculem el api_sig */
 function calculateApiSig( params) {
 
     //Crec que només necessitem apikey, token i secret i no necessitem params, els podem treure de sessionStorage
@@ -145,7 +150,7 @@ function calculateApiSig( params) {
 
     console.log("Mi primer chorizo:" , stringActual);
 
-    stringActual = stringActual + myshared_secret;
+    stringActual = stringActual + dades.myshared_secret;
     console.log("Mi primer chorizo con shared:" , stringActual);
 
     console.log("Mi primer chorizo con shared limpio :" , stringActual);
@@ -153,7 +158,7 @@ function calculateApiSig( params) {
 
     var hashed_sec = md5(unescape(encodeURIComponent(stringActual)));
     console.log("La apiSig es: " + hashed_sec);
-    api_sig = hashed_sec;
+    dades.api_sig = hashed_sec;
     return hashed_sec; // Returns signed POSTable objec */
 
 }
