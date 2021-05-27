@@ -1,19 +1,19 @@
-var dades = new Constants();
+var dades = new Dades();
 dades.url = window.location.href;
 dades.captured = /token=([^&]+)/.exec(dades.url)[1];
 
 /** Obté la informació del usuari a traves de ajax i obtenim un XML */
-function userInfo(){
+function userInfo() {
     console.log(dades.username);
     $.ajax({
-        url: 'http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=' + dades.username +'&api_key=' + dades.myAPI_key,
+        url: 'http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=' + dades.username + '&api_key=' + dades.myAPI_key,
         method: 'GET'
-    }).then(function(data) {
+    }).then(function (data) {
         printUser(data);
     });
 }
 
-function printUser(xml){
+function printUser(xml) {
     var xmlDoc = xml;
     var x = xmlDoc.getElementsByTagName("user");
     var name = x[0].getElementsByTagName("name")[0].childNodes[0].nodeValue;
@@ -23,26 +23,26 @@ function printUser(xml){
     dades.userimage = img;
     dades.username = name;
     $("#nameuser").text(dades.username);
-    $("#imguser").attr("src",dades.userimage);
+    $("#imguser").attr("src", dades.userimage);
     sessionStorage.setItem("img", dades.userimage);
     sessionStorage.setItem("name", dades.username);
 }
 
-function print(){
-    if (sessionStorage.getItem("name") && sessionStorage.getItem("img")){
+function print() {
+    if (sessionStorage.getItem("name") && sessionStorage.getItem("img")) {
         let username = sessionStorage.getItem("name");
         let userimage = sessionStorage.getItem("img");
         $("#nameuser").text(username);
-        $("#imguser").attr("src",userimage);
+        $("#imguser").attr("src", userimage);
     }
-    if (sessionStorage.getItem("sk")){
+    if (sessionStorage.getItem("sk")) {
         dades.sk = sessionStorage.getItem("sk");
     }
 }
 
 /** Imprimeix el nom del usuari al menú */
-function addTagBadBunny(){
-    var last_url="http://ws.audioscrobbler.com/2.0/?";
+function addTagBadBunny() {
+    var last_url = "http://ws.audioscrobbler.com/2.0/?";
 
     var params = {
         artist: 'Bad Bunny',
@@ -78,11 +78,10 @@ function addTagBadBunny(){
 }
 
 /** Imprimim els artistes similars */
-function printSimilars(json){
+function printSimilars(json) {
 
     var table = "";
-    for (var i=0; i< 10; i++)
-    {
+    for (var i = 0; i < 10; i++) {
         table += "<tr><td scope='row'>" +
             json.similarartists.artist[i].name +
             "</td><td>";
@@ -100,21 +99,21 @@ function tablaAlbums(xml) {
     var xmlDoc = xml.responseXML;
     var table = "";
     var x = xmlDoc.getElementsByTagName("album");
-    for (i = 0; i <10; i++) {
+    for (i = 0; i < 10; i++) {
         table += "<tr><td>" +
             x[i].getElementsByTagName("name")[0].childNodes[0].nodeValue +
             "</td><td>" +
             x[i].getElementsByTagName("playcount")[0].childNodes[0].nodeValue +
-            "</td><td><img src="+
+            "</td><td><img src=" +
             x[i].getElementsByTagName("image")[2].childNodes[0].nodeValue + "></img></td></tr>";
     }
     document.getElementById("albums").innerHTML = table;
 }
 
 /** Obtenim els albums del artista */
-function albums(){
+function albums() {
     var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             tablaAlbums(this);
         }
@@ -124,18 +123,18 @@ function albums(){
 }
 
 /** Obtenim els cantants similars al artista */
-function similars(){
+function similars() {
     $.ajax({
-        url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=Bad+Bunny&api_key=' + dades.myAPI_key+ '&format=json',
+        url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=Bad+Bunny&api_key=' + dades.myAPI_key + '&format=json',
         dataType: 'json',
         method: 'GET'
-    }).then(function(data) {
+    }).then(function (data) {
         printSimilars(data);
     });
 }
 
 /** Obtenim el api sig */
-function cargaInicial(){
+function cargaInicial() {
     //CÁCULO DE API_SIG Para get session
     var data = {
         'token': Utf8.encode(dades.captured),
@@ -148,7 +147,7 @@ function cargaInicial(){
     data["format"] = "json";
 
 
-    var last_url="http://ws.audioscrobbler.com/2.0/?";
+    var last_url = "http://ws.audioscrobbler.com/2.0/?";
 
     $.ajax({
         type: "GET",
@@ -172,7 +171,7 @@ function cargaInicial(){
 
 }
 
-$( document ).ready(function() {
+$(document).ready(function () {
     cargaInicial();
     albums();
     similars();
@@ -189,7 +188,7 @@ function calculateApiSig(params) {
 
 
     Object.keys(params).forEach(function (key) {
-        if( key !== "format" && key != "callback") {
+        if (key !== "format" && key != "callback") {
             arrayKeysParams.push(key); // Get list of object keys
         }
     });

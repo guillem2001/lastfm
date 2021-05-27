@@ -1,17 +1,15 @@
-
-
-class Constants {
+class Dades {
 	constructor() {
 		this.myAPI_key = "abc4563bfb944f73812a105b2559af85";
 		this.myshared_secret="b3a42a52baac133e543e842a2cec25bf";
 		this.myapplication_name="as";
-		this.url;
-		this.api_sig;
-		this.captured;
-		this.sk;
-		this.username;
-		this.userurl;
-		this.userimage;
+		this.url = null;
+		this.api_sig = null;
+		this.captured = null;
+		this.sk = null;
+		this.username = null;
+		this.userurl = null;
+		this.userimage = null;
 	}
 }
 
