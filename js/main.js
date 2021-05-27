@@ -17,14 +17,11 @@ function printUser(xml){
     var xmlDoc = xml;
     var x = xmlDoc.getElementsByTagName("user");
     var name = x[0].getElementsByTagName("name")[0].childNodes[0].nodeValue;
-    var img = x[0].getElementsByTagName("image")[1].childNodes[0].nodeValue;
+    var img = x[0].getElementsByTagName("image")[0].childNodes[0].nodeValue;
     var url = x[0].getElementsByTagName("url")[0].childNodes[0].nodeValue;
     dades.userurl = url;
     dades.userimage = img;
     dades.username = name;
-    console.log(dades.userurl);
-    console.log(dades.userimage);
-    console.log(dades.username);
     $("#nameuser").text(dades.username);
     $("#imguser").attr("src",dades.userimage);
     sessionStorage.setItem("img", dades.userimage);
@@ -65,14 +62,16 @@ function addTagBadBunny(){
         dataType: 'json',
         //"success" gets called when the returned code is a "200" (successfull request). "error" gets called whenever another code is returned (e.g. 404, 500).
         success: function (res) {
-
-            //console.log("Resposta: Name " + res.session.name);// Should return session key.
-            //console.log("Resposta: Key " + res.session.key);
-            console.log("Tag afegit");
+            $('#missatgeError').css("display", "none");
+            $('#missatgeOk').text("Tag afegit");
+            $("#missatgeOk").css("display", "block");
         },
         error: function (xhr, status, error) {
             var errorMessage = xhr.status + ': ' + xhr.statusText
             console.log('Error - ' + errorMessage);
+            $('#missatgeOk').css("display", "none");
+            $('#missatgeError').text("Error al afegir el tag");
+            $("#missatgeError").css("display", "block");
         }
     });
 
@@ -84,7 +83,7 @@ function printSimilars(json){
     var table = "";
     for (var i=0; i< 10; i++)
     {
-        table += "<tr><td>" +
+        table += "<tr><td scope='row'>" +
             json.similarartists.artist[i].name +
             "</td><td>";
     }

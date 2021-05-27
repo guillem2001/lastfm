@@ -16,79 +16,88 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-        <style>
-            * {
-                padding: 0;
-                margin: 0;
-            }
+            <style>
+                * {
+                    padding: 0;
+                    margin: 0;
+                }
 
-            ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                background-color: #333;
-            }
+                ul {
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0;
+                    overflow: hidden;
+                    background-color: #333;
+                }
 
-            li {
-                float: left;
-            }
+                li {
+                    float: left;
+                }
 
-            li a {
-                display: block;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
+                li a {
+                    display: block;
+                    color: white;
+                    text-align: center;
+                    padding: 14px 16px;
+                    text-decoration: none;
+                }
 
-            li a:hover {
-                background-color: #111;
-            }
+                li a:hover {
+                    background-color: #111;
+                }
 
-            .columna {
-                float: left;
-                width: 49.8%;
-            }
-        </style>
-        <ul>
-            <li><a class="active" href="#home">Inici</a></li>
-            <li style="float:right;"><a id="nameuser" class="text-white"></a></li>
-            <li style="float:right;"><img src="" id="imguser"></li>
-        </ul>
+                .columna {
+                    float: left;
+                    width: 49.8%;
+                }
+            </style>
+            <ul>
+                <li><a class="active" href="#home">Inici</a></li>
+                <li style="float:right;"><a id="nameuser" class="text-white"></a></li>
+                <li style="float:right;"><img src="" class="img-fluid rounded" id="imguser"></li>
+            </ul>
             <br>
-        <h1 class="text-center text-primary">Bad Bunny</h1><hr>
-        <div class="columna">
-            <div style="  width: 50%; margin: 0 auto;">
-                <h2>Els millors albums</h2>
-                <br>
-                <table>
-                    <thead>
-                    <th>Nom</th>
-                    <th>Playcount</th>
-                    <th>Foto</th>
-                    </thead>
-                    <tbody id="albums">
+            <h1 class="text-center text-primary">Bad Bunny</h1>
+            <hr>
+            <div class="row">
+                <div class="col-5">
+                    <div style="  width: 50%; margin: 0 auto;">
+                        <h2>Els millors albums</h2>
+                        <br>
+                        <table class="table">
+                            <thead>
+                            <th>Nom</th>
+                            <th>Playcount</th>
+                            <th>Foto</th>
+                            </thead>
+                            <tbody id="albums">
 
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="columna">
-            <div style="  width: 50%; margin: 0 auto;">
-                <h2>Artistes similars</h2>
-                <br>
-                <table>
-                    <thead>
-                    <th>Artista</th>
-                    </thead>
-                    <tbody id="similars">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div style="  width: 50%; margin: 0 auto;">
+                        <h2>Artistes similars</h2>
+                        <br>
+                        <table class="table">
+                            <thead>
+                            <th>Artista</th>
+                            </thead>
+                            <tbody id="similars">
 
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <button type="button" class="btn btn-secondary" onclick="addTagBadBunny()">Afegir Tag Conejo</button>
+                    <br>
+                    <button type="button" class="btn btn-success" id="missatgeOk" style="display: none; margin-top: 15px"></button>
+                    <button type="button" class="btn btn-danger" id="missatgeError" style="display: none; margin-top: 15px"></button>
+                </div>
             </div>
-        </div>
-        <button onclick="addTagBadBunny()">asdja</button>
         </div>
     </div>
 </div>
