@@ -4,22 +4,46 @@ dades.captured = /token=([^&]+)/.exec(dades.url)[1];
 
 /** Obté la informació del usuari a traves de ajax i obtenim un XML */
 function userInfo(){
+    console.log(dades.username);
     $.ajax({
-        url: 'http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=guillem20012&api_key=' + dades.myAPI_key,
+        url: 'http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=' + dades.username +'&api_key=' + dades.myAPI_key,
         method: 'GET'
     }).then(function(data) {
         printUser(data);
     });
 }
 
-/** Imprimeix el nom del usuari al menú */
 function printUser(xml){
     var xmlDoc = xml;
     var x = xmlDoc.getElementsByTagName("user");
     var name = x[0].getElementsByTagName("name")[0].childNodes[0].nodeValue;
-    $("#nameuser").text(name);
+    var img = x[0].getElementsByTagName("image")[1].childNodes[0].nodeValue;
+    var url = x[0].getElementsByTagName("url")[0].childNodes[0].nodeValue;
+    dades.userurl = url;
+    dades.userimage = img;
+    dades.username = name;
+    console.log(dades.userurl);
+    console.log(dades.userimage);
+    console.log(dades.username);
+    $("#nameuser").text(dades.username);
+    $("#imguser").attr("src",dades.userimage);
+    sessionStorage.setItem("img", dades.userimage);
+    sessionStorage.setItem("name", dades.username);
 }
 
+function print(){
+    if (sessionStorage.getItem("name") && sessionStorage.getItem("img")){
+        let username = sessionStorage.getItem("name");
+        let userimage = sessionStorage.getItem("img");
+        $("#nameuser").text(username);
+        $("#imguser").attr("src",userimage);
+    }
+    if (sessionStorage.getItem("sk")){
+        dades.sk = sessionStorage.getItem("sk");
+    }
+}
+
+/** Imprimeix el nom del usuari al menú */
 function addTagBadBunny(){
     var last_url="http://ws.audioscrobbler.com/2.0/?";
 
@@ -64,9 +88,9 @@ function printSimilars(json){
             json.similarartists.artist[i].name +
             "</td><td>";
     }
-    console.log(json);
+    //console.log(json);
 
-    console.log(json.similarartists.artist[i].image[2].size);
+    //console.log(json.similarartists.artist[i].image[2].size);
 
     document.getElementById("similars").innerHTML = table;
 }
@@ -120,7 +144,7 @@ function cargaInicial(){
         'method': 'auth.getSession'
     };
 
-    data["api_sig"] = calculateApiSig( data);
+    data["api_sig"] = calculateApiSig(data);
 
     data["format"] = "json";
 
@@ -134,11 +158,12 @@ function cargaInicial(){
         dataType: 'json',
         //"success" gets called when the returned code is a "200" (successfull request). "error" gets called whenever another code is returned (e.g. 404, 500).
         success: function (res) {
-
             console.log("Resposta: Name " + res.session.name);// Should return session key.
             console.log("Resposta: Key " + res.session.key);
             dades.sk = res.session.key;
-
+            sessionStorage.setItem("sk", res.session.key);
+            dades.username = res.session.name;
+            userInfo();
         },
         error: function (xhr, status, error) {
             var errorMessage = xhr.status + ': ' + xhr.statusText
@@ -151,8 +176,8 @@ function cargaInicial(){
 $( document ).ready(function() {
     cargaInicial();
     albums();
-    userInfo();
     similars();
+    print();
 });
 
 /** Calculem el api_sig */
@@ -175,12 +200,12 @@ function calculateApiSig(params) {
         stringActual = stringActual + key + params[key]; // build string
     });
 
-    console.log("Mi primer chorizo:" , stringActual);
+    //console.log("Mi primer chorizo:" , stringActual);
 
     stringActual = stringActual + dades.myshared_secret;
-    console.log("Mi primer chorizo con shared:" , stringActual);
+    //console.log("Mi primer chorizo con shared:" , stringActual);
 
-    console.log("Mi primer chorizo con shared limpio :" , stringActual);
+    //console.log("Mi primer chorizo con shared limpio :" , stringActual);
 
 
     var hashed_sec = md5(unescape(encodeURIComponent(stringActual)));

@@ -1,20 +1,81 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Mi primer Last fm</title>
-		<meta charset="utf-8">
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-		<script type="text/javascript" src="./js/md5.min.js"></script>
-		 <script type="text/javascript" src="./js/constants.js"></script>
+<head>
+    <title>Menu principal Last FM</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/constants.js"></script>
+    <script type="text/javascript" src="./js/utf8.js"></script>
+    <script type="text/javascript" src="./js/md5.min.js"></script>
+    <script type="text/javascript" src="./js/index.js"></script>
 
-	</head>
-	<body>
-		<h1>The onclick Event</h1>
+</head>
+<body>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+    }
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+    }
 
-		<p>The onclick event is used to trigger a function when an element is clicked on.</p>
+    li {
+        float: left;
+    }
 
-		<p>Click the button to trigger a function that will output "Hello World" in a p element with id="demo".</p>
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
 
-		<button onclick="myLoginFunction()">Click me</button>
-	</body>
+    li a:hover {
+        background-color: #111;
+    }
+    .columna {float:left;width:49.8%;}
+</style>
+<ul>
+    <li><a class="active" href="#home">Inici</a></li>
+    <li style="float:right;"><a id="nameuser"></a></li>
+</ul>
+<h1>Bad Bunny</h1>
+<button onclick="myLoginFunction()">Fer login</button>
+<div class="columna">
+    <div style="  width: 50%; margin: 0 auto;">
+        <h2>Els millors albums</h2>
+        <br>
+        <table>
+            <thead>
+            <th>Nom</th>
+            <th>Playcount</th>
+            <th>Foto</th>
+            </thead>
+            <tbody id="albums">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="columna">
+    <div style="  width: 50%; margin: 0 auto;">
+        <h2>Artistes similars</h2>
+        <br>
+        <table>
+            <thead>
+            <th>Artista</th>
+            </thead>
+            <tbody id="similars">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
 </html>
