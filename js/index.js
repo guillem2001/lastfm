@@ -1,17 +1,7 @@
 var dades = new Dades();
 dades.url = window.location.href;
 
-/** Obté la informació del usuari a traves de ajax i obtenim un XML */
-function userInfo() {
-    $.ajax({
-        url: 'http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=guillem20012&api_key=' + dades.myAPI_key,
-        method: 'GET'
-    }).then(function (data) {
-        printUser(data);
-    });
-}
-
-/** Imprimim els artistes similars */
+/** Imprimim els artistes similars a Badd Buny*/
 function printSimilars(json) {
 
     var table = "";
@@ -27,7 +17,7 @@ function printSimilars(json) {
     document.getElementById("similars").innerHTML = table;
 }
 
-/** Imprimeix els albums */
+/** Imprimeix els albums de Bad Bunny */
 function tablaAlbums(xml) {
     var i;
     var xmlDoc = xml.responseXML;
@@ -44,7 +34,7 @@ function tablaAlbums(xml) {
     document.getElementById("albums").innerHTML = table;
 }
 
-/** Obtenim els albums del artista */
+/** Obtenim els albums de Badd Bunny a traves de  XMLHttpRequest en format XML*/
 function albums() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -56,7 +46,7 @@ function albums() {
     xhttp.send();
 }
 
-/** Obtenim els cantants similars al artista */
+/** Obtenim els cantants similars al artista a traves de ajax en format json */
 function similars() {
     $.ajax({
         url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=Bad+Bunny&api_key=' + dades.myAPI_key + '&format=json',
@@ -67,6 +57,7 @@ function similars() {
     });
 }
 
+/** Al carregar el document executarem les funcions */
 $(document).ready(function () {
     albums();
     similars();

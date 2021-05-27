@@ -13,6 +13,7 @@ function userInfo() {
     });
 }
 
+/**  Guardem e imprimim la imatge i el nom del usuari en el menú */
 function printUser(xml) {
     var xmlDoc = xml;
     var x = xmlDoc.getElementsByTagName("user");
@@ -28,6 +29,7 @@ function printUser(xml) {
     sessionStorage.setItem("name", dades.username);
 }
 
+/**  Imprimim la imatge i el nom del usuari en el menú, ho fem agafant les dades del sessionstorage */
 function print() {
     if (sessionStorage.getItem("name") && sessionStorage.getItem("img")) {
         let username = sessionStorage.getItem("name");
@@ -40,7 +42,7 @@ function print() {
     }
 }
 
-/** Imprimeix el nom del usuari al menú */
+/** Afegim un tag al artista Badd Bunny, en aquest cas Conejo */
 function addTagBadBunny() {
     var last_url = "http://ws.audioscrobbler.com/2.0/?";
 
@@ -77,7 +79,7 @@ function addTagBadBunny() {
 
 }
 
-/** Imprimim els artistes similars */
+/** Imprimim els artistes similars a Badd Buny*/
 function printSimilars(json) {
 
     var table = "";
@@ -86,14 +88,11 @@ function printSimilars(json) {
             json.similarartists.artist[i].name +
             "</td><td>";
     }
-    //console.log(json);
-
-    //console.log(json.similarartists.artist[i].image[2].size);
 
     document.getElementById("similars").innerHTML = table;
 }
 
-/** Imprimeix els albums */
+/** Imprimeix els albums de Bad Bunny */
 function tablaAlbums(xml) {
     var i;
     var xmlDoc = xml.responseXML;
@@ -110,7 +109,7 @@ function tablaAlbums(xml) {
     document.getElementById("albums").innerHTML = table;
 }
 
-/** Obtenim els albums del artista */
+/** Obtenim els albums de Badd Bunny a traves de  XMLHttpRequest en format XML*/
 function albums() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -122,7 +121,7 @@ function albums() {
     xhttp.send();
 }
 
-/** Obtenim els cantants similars al artista */
+/** Obtenim els cantants similars al artista a traves de ajax en format json */
 function similars() {
     $.ajax({
         url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=Bad+Bunny&api_key=' + dades.myAPI_key + '&format=json',
@@ -133,7 +132,7 @@ function similars() {
     });
 }
 
-/** Obtenim el api sig */
+/** Al carregar la pàgina al principi, obtindrem les dades del usuari que despres emmagatzegarem al session storage */
 function cargaInicial() {
     //CÁCULO DE API_SIG Para get session
     var data = {
@@ -171,6 +170,7 @@ function cargaInicial() {
 
 }
 
+/** Al carregar el document executarem les funcions */
 $(document).ready(function () {
     cargaInicial();
     albums();
@@ -198,13 +198,7 @@ function calculateApiSig(params) {
         stringActual = stringActual + key + params[key]; // build string
     });
 
-    //console.log("Mi primer chorizo:" , stringActual);
-
     stringActual = stringActual + dades.myshared_secret;
-    //console.log("Mi primer chorizo con shared:" , stringActual);
-
-    //console.log("Mi primer chorizo con shared limpio :" , stringActual);
-
 
     var hashed_sec = md5(unescape(encodeURIComponent(stringActual)));
     console.log("La apiSig es: " + hashed_sec);
