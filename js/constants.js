@@ -8,6 +8,7 @@ class Constants {
 		this.url = null;
 		this.api_sig = null;
 		this.captured = null;
+		this.sk = null;
 	}
 }
 

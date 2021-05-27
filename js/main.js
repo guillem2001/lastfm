@@ -2,7 +2,6 @@ var dades = new Constants();
 dades.url = window.location.href;
 dades.captured = /token=([^&]+)/.exec(dades.url)[1];
 
-
 /** Obté la informació del usuari a traves de ajax i obtenim un XML */
 function userInfo(){
     $.ajax({
@@ -22,12 +21,36 @@ function printUser(xml){
 }
 
 function addTagBadBunny(){
-    api_sign();
-    let api_sig = dades.api_sig;
-    let api_key = dades.myAPI_key;
-    let sk = dades.captured;
-    let artist = "Bad+Bunny";
-    let tag = "Conejo";
+    var last_url="http://ws.audioscrobbler.com/2.0/?";
+
+    var params = {
+        artist: 'Bad Bunny',
+        tags: 'Conejo',
+        api_key: dades.myAPI_key,
+        method: 'album.addTags',
+        sk: dades.sk
+    };
+
+    params["api_sig"] = calculateApiSig(params);
+    params['format'] = 'json';
+
+    $.ajax({
+        type: "GET",
+        url: last_url,
+        data: params,
+        dataType: 'json',
+        //"success" gets called when the returned code is a "200" (successfull request). "error" gets called whenever another code is returned (e.g. 404, 500).
+        success: function (res) {
+
+            //console.log("Resposta: Name " + res.session.name);// Should return session key.
+            //console.log("Resposta: Key " + res.session.key);
+            console.log("Tag afegit");
+        },
+        error: function (xhr, status, error) {
+            var errorMessage = xhr.status + ': ' + xhr.statusText
+            console.log('Error - ' + errorMessage);
+        }
+    });
 
 }
 
@@ -89,7 +112,7 @@ function similars(){
 }
 
 /** Obtenim el api sig */
-function api_sign(){
+function cargaInicial(){
     //CÁCULO DE API_SIG Para get session
     var data = {
         'token': Utf8.encode(dades.captured),
@@ -114,6 +137,8 @@ function api_sign(){
 
             console.log("Resposta: Name " + res.session.name);// Should return session key.
             console.log("Resposta: Key " + res.session.key);
+            dades.sk = res.session.key;
+
         },
         error: function (xhr, status, error) {
             var errorMessage = xhr.status + ': ' + xhr.statusText
@@ -124,14 +149,14 @@ function api_sign(){
 }
 
 $( document ).ready(function() {
-    api_sign();
+    cargaInicial();
     albums();
     userInfo();
     similars();
 });
 
 /** Calculem el api_sig */
-function calculateApiSig( params) {
+function calculateApiSig(params) {
 
     //Crec que només necessitem apikey, token i secret i no necessitem params, els podem treure de sessionStorage
     //Calcula l'apiSig a partir dels valors d'abans...
@@ -140,7 +165,9 @@ function calculateApiSig( params) {
 
 
     Object.keys(params).forEach(function (key) {
-        arrayKeysParams.push(key); // Get list of object keys
+        if( key !== "format" && key != "callback") {
+            arrayKeysParams.push(key); // Get list of object keys
+        }
     });
     arrayKeysParams.sort(); // Alphabetise it
 
