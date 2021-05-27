@@ -42,14 +42,14 @@ function albums() {
             tablaAlbums(this);
         }
     };
-    xhttp.open("GET", "http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=Bad+Bunny&api_key=" + dades.myAPI_key, true);
+    xhttp.open("GET", "https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=Bad+Bunny&api_key=" + dades.myAPI_key, true);
     xhttp.send();
 }
 
 /** Obtenim els cantants similars al artista a traves de ajax en format json */
 function similars() {
     $.ajax({
-        url: 'http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=Bad+Bunny&api_key=' + dades.myAPI_key + '&format=json',
+        url: 'https://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=Bad+Bunny&api_key=' + dades.myAPI_key + '&format=json',
         dataType: 'json',
         method: 'GET'
     }).then(function (data) {
