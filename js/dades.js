@@ -32,7 +32,7 @@ function myLoginFunction(){
 			/*
 			params api_key ( my api key)
 			cb the web that goes when user is authenticated relative path ( depends on the server is launched): http://localhost:3000/mainpage.ht*/
-			var url= 'http://www.last.fm/api/auth/?api_key=abc4563bfb944f73812a105b2559af85&cb=http://localhost:63342/uf4/mainpage.html';
+			var url= 'http://www.last.fm/api/auth/?api_key=abc4563bfb944f73812a105b2559af85&cb=https://guillem2001.github.io/lastfm/mainpage.html';
 
 			window.location.replace(url);
 }
